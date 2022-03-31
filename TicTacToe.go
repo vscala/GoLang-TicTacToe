@@ -7,14 +7,14 @@ package main
 import "fmt"
 
 // Constants
-const XTOKEN byte = 'X'
-const OTOKEN byte = 'O'
+const XTOKEN rune = 'X'
+const OTOKEN rune = 'O'
 
 // Game variables
 var running bool = true
 var turn bool = true
 var aiTurn bool = false
-var board = [3][3]int{{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}}
+var board = [3][3]rune{{' ', ' ', ' '}, {' ', ' ', ' '}, {' ', ' ', ' '}}
 var moveCount int = 0
 
 // Print current board state
@@ -42,7 +42,12 @@ func getMove() (int, int) {
 
 // Play move on board, and increment moveCount
 func playMove(i int, j int) {
-
+	if turn {
+		board[i][j] = XTOKEN
+	} else {
+		board[i][j] = OTOKEN
+	}
+	moveCount++
 }
 
 // Determine if current board state is won
@@ -53,8 +58,7 @@ func checkWin() bool {
 
 // Determine if current board state is drawn
 func checkDraw() bool {
-
-	return false
+	return moveCount == 9
 }
 
 /*
