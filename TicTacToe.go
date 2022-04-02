@@ -82,7 +82,6 @@ func getMove() (row int, column int) {
 	// get user placement
 	var selection int
 	fmt.Println("Enter a number (1-9) to place your piece")
-	printBoard()
 	fmt.Scanln(&selection)
 	switch selection {
 	case 1:
