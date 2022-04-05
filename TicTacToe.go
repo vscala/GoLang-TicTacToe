@@ -18,8 +18,23 @@ var PLACEMENTBOARD = [5][5]string {{"1", "|", "2", "|", "3"}, {"-", "+", "-", "+
 var running bool = true
 var turn bool = true
 var aiTurn bool = false
+var aiOpponent bool = true
 var moveCount int = 0
 var board = [5][5]string {{" ", "|", " ", "|", " "}, {"-", "+", "-", "+", "-"}, {" ", "|", " ", "|", " "}, {"-", "+", "-", "+", "-"}, {" ", "|", " ", "|", " "}};
+
+// TODO: Choose if X or O
+func chooseToken() {
+	aiTurn = true	// if player chooses OTOKEN 
+	aiTurn = false	// if player chooses XTOKEN
+}
+
+// TODO: Choose opponent
+func chooseOpponent() {
+	aiOpponent = true	// if opponent is AI
+	chooseToken()
+	
+	aiOpponent = false	// if opponent is human
+}
 
 // Print current board state
 func printBoard() {
@@ -43,7 +58,7 @@ func printPlacementBoard() {
 	fmt.Println()
 }
 
-// Returns a list of valid moves
+// TODO: Returns a list of valid moves
 func getValidMoves() [][]int {
 	out := make([][]int, 9)
 	return out
@@ -116,7 +131,7 @@ func playMove(i int, j int) {
 	moveCount++
 }
 
-// Determine if current board state is won
+// TODO: Determine if current board state is won
 func checkWin() bool {
 
 	return false
@@ -127,8 +142,15 @@ func checkDraw() bool {
 	return moveCount == 9
 }
 
+// TODO: Determine if a new game should be played
+func playAgain() {
+	running = true	// set to true if playing again
+	runner()		// call if playing again
+}
+
 /*
 	Runner:
+		choose human or AI opponent
 		print placement board
 		Each turn:
 		1a. get move from user input
@@ -138,14 +160,14 @@ func checkDraw() bool {
 		4. determine if game is won
 		5. determine if game is drawn
 		6. swap turn
-	
 */
 func runner() {
 	var i int
 	var j int
+	chooseOpponent()
 	printPlacementBoard()
 	for running {
-		if turn == aiTurn {
+		if aiOpponent && turn == aiTurn {
 			i, j = getAIMove()
 		} else {
 			i, j = getMove()
@@ -154,7 +176,12 @@ func runner() {
 		printBoard()
 		if checkWin() {
 			running = false
-			fmt.Println("Game won")
+			if turn {
+				fmt.Println("Player X won")
+			} else {
+				fmt.Println("Player O won")
+			}
+			break
 		}
 		if checkDraw() {
 			running = false
@@ -162,8 +189,8 @@ func runner() {
 		}
 		turn = !turn
 	}
+	playAgain()
 }
-
 
 func main() {
 	runner()
