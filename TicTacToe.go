@@ -1,12 +1,13 @@
 /*
 	TicTacToe GoLang Project
-	
 */
 package main
 
 import (
 	"fmt"
 	"math/rand"
+	"os"
+	"os/exec"
 )
 
 // Constants
@@ -55,8 +56,16 @@ func chooseOpponent() {
 	}
 }
 
+// Clear terminal
+func clearConsole() {
+	c := exec.Command("clear")
+	c.Stdout = os.Stdout
+	c.Run()
+}
+
 // Print current board state
 func printBoard() {
+	clearConsole()
 	for i := 0; i < 5; i++ {
 		for j := 0; j < 5; j++ {
 			fmt.Print(board[i][j])
@@ -291,6 +300,7 @@ func clearGame() {
 */
 func runner() {
 	chooseOpponent()
+	clearConsole()
 	printPlacementBoard()
 	for running {
 		row, column := getMove()
@@ -303,5 +313,6 @@ func runner() {
 }
 
 func main() {
+	clearConsole()
 	runner()
 }
